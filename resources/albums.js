@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const axios = require('axios');
 const { client } = require('../connection/postgres.connection');

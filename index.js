@@ -1,6 +1,4 @@
-"use strict"
-
-const { client } = require('./connection/postgres.connection');
+"use strict";
 
 const { executePosts } = require('./resources/posts');
 const { executeComments } = require('./resources/comments');
