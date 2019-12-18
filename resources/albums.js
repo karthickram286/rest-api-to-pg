@@ -4,6 +4,9 @@ const axios = require('axios');
 const { client } = require('../connection/postgres.connection');
 
 let executeAlbums = async function() {
+    // Truncating the table first
+    truncateAlbum();
+    
     console.log('Started storing albums...');
     try {
         let albumsResponse = await axios.get('https://jsonplaceholder.typicode.com/albums');
@@ -22,6 +25,16 @@ let storeAlbum = async function(id, userId, title) {
     try {
         await client.query(albumQuery, values);
         console.log('album ' + id + ' stored');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncateAlbum = async function() {
+    const truncateQuery = 'TRUNCATE TABLE albums_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('album table truncated');
     } catch (err) {
         console.log(err);
     }

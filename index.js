@@ -7,6 +7,9 @@ const { executePhotos } = require('./resources/photos');
 const { executeTodos } = require('./resources/todos');
 const { executeUsers } = require('./resources/users');
 
+/**
+ * Calling the functions which retrives the values from fake REST api and stores in Postgres
+ */
 executePosts();
 executeComments();
 executeAlbums();

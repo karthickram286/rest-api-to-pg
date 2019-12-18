@@ -4,6 +4,9 @@ const axios = require('axios');
 const { client } = require('../connection/postgres.connection');
 
 let executeComments = async function() {
+    // Truncating the table first
+    truncatecomments();
+
     console.log('Started storing comments...');
     try {
         let commentsResponse = await axios.get('https://jsonplaceholder.typicode.com/comments');
@@ -22,6 +25,16 @@ let storeComment = async function(id, postId, name, email, body) {
     try {
         await client.query(commentQuery, values);
         console.log('comment ' + id + ' stored');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncatecomments = async function() {
+    const truncateQuery = 'TRUNCATE TABLE comments_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('comments table truncated');
     } catch (err) {
         console.log(err);
     }

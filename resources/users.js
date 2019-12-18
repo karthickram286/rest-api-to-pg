@@ -4,6 +4,12 @@ const axios = require('axios');
 const { client } = require('../connection/postgres.connection');
 
 let executeUsers = async function() {
+    // Truncating the tables first
+    truncateusers();
+    truncateaddress();
+    truncatecompany();
+    truncategeo();
+
     console.log('Started storing users...');
     try {
         let usersResponse = await axios.get('https://jsonplaceholder.typicode.com/users');
@@ -15,6 +21,10 @@ let executeUsers = async function() {
         console.log(err);
     }
 }
+
+/**
+ * Store functions 
+ */
 
 let storeUser = async function(id, name, userName, email, address, phone, website, company) {
     storeAddress(id, address.street, address.suite, address.city, address.zipcode, address.geo);
@@ -55,6 +65,50 @@ let storeCompany = async function(id, name, catchPhrase, bs) {
     const values = [id, name, catchPhrase, bs];
     try {
         await client.query(companyQuery, values);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+/**
+ * Truncate functions
+ */
+
+let truncateusers = async function() {
+    const truncateQuery = 'TRUNCATE TABLE users_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('users table truncated');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncateaddress = async function() {
+    const truncateQuery = 'TRUNCATE TABLE users_address_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('users_address table truncated');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncatecompany = async function() {
+    const truncateQuery = 'TRUNCATE TABLE users_company_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('users_company table truncated');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncategeo = async function() {
+    const truncateQuery = 'TRUNCATE TABLE users_address_geo_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('users_address_geo table truncated');
     } catch (err) {
         console.log(err);
     }

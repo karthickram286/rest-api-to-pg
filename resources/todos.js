@@ -4,6 +4,8 @@ const axios = require('axios');
 const { client } = require('../connection/postgres.connection');
 
 let executeTodos = async function() {
+    // Truncating the table first
+    truncatetodos();
     console.log('Started storing todos...');
     try {
         let todosResponse = await axios.get('https://jsonplaceholder.typicode.com/todos');
@@ -22,6 +24,16 @@ let storeTodo = async function(id, userId, title, completed) {
     try {
         await client.query(todoQuery, values);
         console.log('todo ' + id + ' stored');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+let truncatetodos = async function() {
+    const truncateQuery = 'TRUNCATE TABLE todos_karthick';
+    try {
+        await client.query(truncateQuery);
+        console.log('todos table truncated');
     } catch (err) {
         console.log(err);
     }
